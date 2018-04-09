@@ -99,3 +99,9 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# Pipenv
+Pipfile.lock
+
+# Pycharm
+.idea
