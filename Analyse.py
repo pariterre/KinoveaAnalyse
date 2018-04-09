@@ -8,13 +8,6 @@ import matplotlib.pyplot as plt
 
 time_idx = 0
 masse = 70  # kg
-show_model_position = False
-show_com_height_over_time = False
-show_com_upward_velocity = False
-show_com_upward_acceleration = False
-show_grf_forces = False
-show_joint_angles = True
-
 
 xml_path = "example/box_jump.xml"
 reperes_anato = ("Hanche", "Genou", "Malleole", "Pied", "Epaule", "Coude", "Main", "Tete")
