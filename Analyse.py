@@ -16,7 +16,7 @@ show_grf_forces = False
 show_joint_angles = True
 
 
-xml_path = "example/BoxJump.xml"
+xml_path = "example/box_jump.xml"
 reperes_anato = ("Hanche", "Genou", "Malleole", "Pied", "Epaule", "Coude", "Main", "Tete")
 angle_seg = {
     # Articulation  # dist          # prox      # center
