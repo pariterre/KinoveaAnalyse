@@ -1,9 +1,9 @@
-# Ce script analyse des données de position fournies par le logiciel Kinovea
+# Ce script analyse des données de position fournies par le logiciel Kinovea (export XML)
 # Pour l'utiliser, assurez-vous que les labels utilisés dans Kinovea correspondent à ceux
 # inscrits dans la variable "reperes_anato" du présent logiciel
 # Le script retourne les graphiques de centre de masse, ainsi que les angles entre les segments
-import KinoveaReader
-import BiomechanicsComputation
+from functions import KinoveaReader
+from functions import BiomechanicsComputation
 import matplotlib.pyplot as plt
 
 time_idx = 0
@@ -16,8 +16,7 @@ show_grf_forces = False
 show_joint_angles = True
 
 
-xml_path = "/home/pariterre/ownCloud/Documents/Enseignement/KIN2024/2018/cours9/media/" \
-           "PropositionEtudiants/BoxJump.xml"
+xml_path = "example/BoxJump.xml"
 reperes_anato = ("Hanche", "Genou", "Malleole", "Pied", "Epaule", "Coude", "Main", "Tete")
 angle_seg = {
     # Articulation  # dist          # prox      # center
