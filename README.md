@@ -3,5 +3,4 @@ Very simple python based biomechanical library for analysing tracked marker from
 
 # How to use
 For simplicity, you can create a conda environment with the command: `conda env create -f env.yml` assuming a conda environment is install on your computer.
-Thereafter, you can run the example
-
+Thereafter, you can run the example by running `python Analyse.py`
