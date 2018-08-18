@@ -2,9 +2,12 @@
 # Pour l'utiliser, assurez-vous que les labels utilisés dans Kinovea correspondent à ceux
 # inscrits dans la variable "reperes_anato" du présent logiciel
 # Le script retourne les graphiques de centre de masse, ainsi que les angles entre les segments
+import numpy as np
+import matplotlib.pyplot as plt
+
+
 from functions import KinoveaReader
 from functions import BiomechanicsComputation
-import matplotlib.pyplot as plt
 
 time_idx = 0
 masse = 70  # kg
@@ -54,6 +57,15 @@ com_i_ddot = BiomechanicsComputation.derivative(com_i_dot, time)
 # Compute GRF
 grf = BiomechanicsComputation.compute_grf(com_ddot, masse)
 
+# Kinogramme
+plt.figure("Kinogramme du mouvement")
+plt.ylabel("Axe vertical (m)")
+plt.xlabel("Axe frontal (m)")
+couleurs = np.linspace(0.88, 0, data.shape[2])
+for i in range(data.shape[2]):
+    plt.plot(data[0, stick, i], data[1, stick, i], color=[couleurs[i], couleurs[i], couleurs[i]])
+plt.axis('equal')
+
 # Output
 plt.figure("Analyse biomécanique de Kinovea")
 
@@ -101,3 +113,4 @@ for joint in angles.values():
 plt.legend(angles.keys())
 
 plt.show()
+print("Fin du script")
