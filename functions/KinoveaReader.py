@@ -7,7 +7,7 @@ import numpy as np
 def read_xml_file(xml_path, reperes_anato):
     # Note to the programmer
     # The structure given by the XML file in Kinovea is a 5 level where
-    #   the 1st iterate on structure (3 is the actual Woorksheet)
+    #   the 1st iterate on structure (3 is the actual Worksheet)
     #   the 3rd iterate on lines
     #   the 4th iterate on columns
     ws = 3  # worksheet

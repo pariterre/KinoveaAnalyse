@@ -1,6 +1,7 @@
 import numpy as np
 from numpy import linalg
 
+
 def compute_com_i(data, winter_table):
     com_i = {}
     for (k, m) in winter_table.items():

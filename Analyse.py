@@ -5,7 +5,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 from functions import KinoveaReader
 from functions import BiomechanicsComputation
 
