@@ -7,11 +7,17 @@ import matplotlib.pyplot as plt
 
 from functions import KinoveaReader
 from functions import BiomechanicsComputation
+from functions import GUI
 
-time_idx = 0
-masse = 70  # kg
+ask_info_by_popup = True
 
-xml_path = "example/box_jump.xml"
+if ask_info_by_popup:
+    masse, time_idx, xml_path = GUI.get_info()
+else:
+    time_idx = 0
+    masse = 70  # kg
+    xml_path = "example/box_jump.xml"
+
 reperes_anato = ("Hanche", "Genou", "Malleole", "Pied", "Epaule", "Coude", "Main", "Tete")
 angle_seg = {
     # Articulation  # dist          # prox      # center
