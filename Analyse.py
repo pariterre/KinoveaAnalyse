@@ -9,12 +9,12 @@ from functions import KinoveaReader
 from functions import BiomechanicsComputation
 from functions import GUI
 
-ask_info_by_popup = False
+use_Qt_gui = True
 
-if ask_info_by_popup:
+if use_Qt_gui:
     masse, time_idx, xml_path, model_name = GUI.get_info()
 else:
-    time_idx = 0
+    time_idx = 100
     masse = 70  # kg
     xml_path = "example/box_jump.xml"
     model_name = "sagittal"
@@ -25,6 +25,14 @@ reperes_anato, stick, angle_seg, winter_table = getattr(models, model_name).mode
 
 # Get the data
 (data, time) = KinoveaReader.read_xml_file(xml_path, reperes_anato)
+
+# Check for the number of frames
+if time_idx >= time.shape[0]:
+    if use_Qt_gui:
+        GUI.wrong_frame(time.shape[0], time_idx)
+    else:
+        print(f"You asked for the frame {time_idx}, but the trial has {time.shape[0]} in total.")
+        exit(1)
 
 # Compute position of com and com_i
 com_i = KinoveaReader.dispatch_dict(

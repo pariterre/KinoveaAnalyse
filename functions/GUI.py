@@ -120,3 +120,14 @@ def get_info():
     ex = InfoPopup()
     app.exec_()
     return ex.mass, ex.time_index, ex.xml_file, ex.model
+
+
+def wrong_frame(number_of_frames_max, request_frame):
+    app = QApplication(sys.argv)
+    msg = QMessageBox()
+    msg.setIcon(QMessageBox.Critical)
+    msg.setText(f"You asked for the frame {request_frame}, but the trial has {number_of_frames_max} in total.")
+    msg.setWindowTitle("Wrong number of frames")
+    msg.show()
+    app.exec_()
+    exit(1)
