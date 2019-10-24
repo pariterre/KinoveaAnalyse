@@ -1,5 +1,7 @@
+import os
+
 import xml.etree.ElementTree as ElementTree
-import datetime
+from datetime import datetime
 import numpy as np
 
 
@@ -29,9 +31,16 @@ def read_xml_file(xml_path, reperes_anato):
                 break
             # Otherwise add data
             else:
-                data_to_stack[0, 0] = datetime.datetime.timestamp(
-                    datetime.datetime.strptime(root[i+3][2][0].text, "%H:%M:%S:%f")
-                )
+                if os.name == 'nt':
+                    # Windows, timestamp fails if year is inferior of 1971
+                    d = datetime.strptime(root[i + 3][2][0].text, "%H:%M:%S:%f")
+                    data_to_stack[0, 0] = \
+                        datetime.timestamp(datetime(1971, 1, 1, d.hour, d.minute, d.second, d.microsecond)) \
+                        - datetime.timestamp(datetime(1971, 1, 1))
+                else:
+                    data_to_stack[0, 0] = datetime.timestamp(
+                        datetime.strptime(root[i+3][2][0].text, "%H:%M:%S:%f")
+                    )
                 data_to_stack[1, 0] = root[i+3][0][0].text
                 data_to_stack[2, 0] = root[i+3][1][0].text
                 data_tp = np.hstack((data_tp, data_to_stack))
