@@ -9,7 +9,7 @@ from functions import KinoveaReader
 from functions import BiomechanicsComputation
 from functions import GUI
 
-ask_info_by_popup = True
+ask_info_by_popup = False
 
 if ask_info_by_popup:
     masse, time_idx, xml_path, model_name = GUI.get_info()
@@ -102,5 +102,8 @@ for joint in angles.values():
     plt.plot(time, KinoveaReader.to_degree(joint))
 plt.legend(angles.keys())
 
+plt.tight_layout(h_pad=-1, w_pad=-6)
+figManager = plt.get_current_fig_manager()
+figManager.window.showMaximized()
 plt.show()
 print("Fin du script")
