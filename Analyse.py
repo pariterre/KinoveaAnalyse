@@ -12,40 +12,25 @@ from functions import GUI
 ask_info_by_popup = True
 
 if ask_info_by_popup:
-    masse, time_idx, xml_path = GUI.get_info()
+    masse, time_idx, xml_path, model_name = GUI.get_info()
 else:
     time_idx = 0
     masse = 70  # kg
     xml_path = "example/box_jump.xml"
+    model_name = "sagittal"
 
-reperes_anato = ("Hanche", "Genou", "Malleole", "Pied", "Epaule", "Coude", "Main", "Tete")
-angle_seg = {
-    # Articulation  # dist          # prox      # center
-    "Cheville":     ("Pied",        "Genou",    "Malleole"),
-    "Genou":        ("Malleole",    "Hanche",   "Genou"),
-    "Hanche":       ("Genou",       "Epaule",   "Hanche"),
-    "Epaule":       ("Hanche",      "Coude",    "Epaule"),
-    "Coude":        ("Epaule",      "Main",     "Coude")
-}
-stick = [3, 2, 1, 0, 4, 7, 4, 5, 6]
-winter_table_lateral = {
-    # Membre:   Seg_prox,    Seg_dist,   Masse,  CM_Prox, CM_Dist,  nb_seg
-    "TT":       ("Epaule",   "Hanche",   0.578,  0.66,    0.34,     1),
-    "Bras":     ("Epaule",   "Coude",    0.028,  0.436,   0.564,    2),
-    "AvBras":   ("Coude",    "Main",     0.016,  0.43,    0.57,     2),
-    "Cuisse":   ("Hanche",   "Genou",    0.1,    0.433,   0.567,    2),
-    "Jambe":    ("Genou",    "Malleole", 0.0465, 0.433,   0.567,    2),
-    "Pied":     ("Malleole", "Pied",     0.0145, 0.5,     0.5,      2)
-}
+# Load the model
+models = __import__("models." + model_name)
+reperes_anato, stick, angle_seg, winter_table = getattr(models, model_name).model()
 
 # Get the data
 (data, time) = KinoveaReader.read_xml_file(xml_path, reperes_anato)
 
 # Compute position of com and com_i
 com_i = KinoveaReader.dispatch_dict(
-    BiomechanicsComputation.compute_com_i(data, winter_table_lateral)
+    BiomechanicsComputation.compute_com_i(data, winter_table)
 )
-com = BiomechanicsComputation.compute_com(data, winter_table_lateral)
+com = BiomechanicsComputation.compute_com(data, winter_table)
 
 # Compute angle between segment
 angles = BiomechanicsComputation.compute_angles(data, angle_seg)

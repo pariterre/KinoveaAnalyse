@@ -1,7 +1,10 @@
+import os
 import sys
+import glob
+
 from PyQt5.QtWidgets import QPushButton, QApplication
 from PyQt5.QtWidgets import QGridLayout, QVBoxLayout
-from PyQt5.QtWidgets import QLabel, QHBoxLayout, QWidget, QLineEdit, QMessageBox
+from PyQt5.QtWidgets import QLabel, QHBoxLayout, QWidget, QLineEdit, QMessageBox, QRadioButton
 from PyQt5.QtWidgets import QFileDialog
 
 
@@ -13,6 +16,7 @@ class InfoPopup(QWidget):
         self.mass = -1
         self.time_index = -1
         self.xml_file = []
+        self.model = None
 
         grid_info = QGridLayout()  # Col 1 = labels, 2 = Edits, 3 = buttons
 
@@ -32,6 +36,16 @@ class InfoPopup(QWidget):
         browse_button = QPushButton("Browse")
         browse_button.clicked.connect(self.click_browse)
         grid_info.addWidget(browse_button, 2, 2)
+
+        grid_info.addWidget(QLabel("Model:"), 3, 0)
+        radio_model_layou = QVBoxLayout()
+        all_models = [os.path.splitext(os.path.split(f)[1])[0] for f in glob.glob("models/*.py")]
+        self.radio_model = []
+        for model in all_models:
+            self.radio_model.append(QRadioButton(model))
+            radio_model_layou.addWidget(self.radio_model[-1])
+        self.radio_model[0].setChecked(True)
+        grid_info.addLayout(radio_model_layou, 3, 1, 1, 2)
 
         # Finish button
         ok_button = QPushButton("OK")
@@ -64,7 +78,7 @@ class InfoPopup(QWidget):
         try:
             self.time_index = int(self.time_index_text.text())
             if self.time_index < 0:
-                self.time_index
+                self.time_index = -1
                 raise ValueError
         except ValueError:
             warning = QMessageBox(QMessageBox.Warning, "Error in time index", "Time index must be a positive integer")
@@ -77,6 +91,11 @@ class InfoPopup(QWidget):
             warning.exec()
             return
         self.xml_file = self.kinovea_text.text()
+
+        for model in self.radio_model:
+            if model.isChecked():
+                self.model = model.text()
+                break
 
         self.from_ok = True
         self.close()
@@ -100,4 +119,4 @@ def get_info():
     app = QApplication(sys.argv)
     ex = InfoPopup()
     app.exec_()
-    return ex.mass, ex.time_index, ex.xml_file
+    return ex.mass, ex.time_index, ex.xml_file, ex.model
