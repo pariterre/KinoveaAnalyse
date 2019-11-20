@@ -77,11 +77,11 @@ class InfoPopup(QWidget):
 
         try:
             self.time_index = int(self.time_index_text.text())
-            if self.time_index < 0:
+            if self.time_index < 1:
                 self.time_index = -1
                 raise ValueError
         except ValueError:
-            warning = QMessageBox(QMessageBox.Warning, "Error in time index", "Time index must be a positive integer")
+            warning = QMessageBox(QMessageBox.Warning, "Error in time index", "Time index must be a positive integer greater than 1.")
             warning.exec()
             return
 
