@@ -14,10 +14,11 @@ use_Qt_gui = True
 if use_Qt_gui:
     masse, time_idx, xml_path, model_name = GUI.get_info()
 else:
-    time_idx = 100
+    time_idx = 0
     masse = 70  # kg
     xml_path = "example/box_jump.xml"
     model_name = "sagittal"
+time_idx += 1
 
 # Load the model
 models = __import__("models." + model_name)
