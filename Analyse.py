@@ -18,7 +18,7 @@ else:
     masse = 70  # kg
     xml_path = "example/box_jump.xml"
     model_name = "sagittal"
-time_idx += 1
+time_idx -= 1  # Make idx 1-based so the first frame is 1 as it is in Kinovea
 
 # Load the model
 models = __import__("models." + model_name)
