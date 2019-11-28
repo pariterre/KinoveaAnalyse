@@ -27,22 +27,22 @@ def read_xml_file(xml_path, reperes_anato):
                 if root[i][0][0].text is not None and len(root[i]) > 1 and root[i][1][0].text == repere:
                     repere_found = True
             # If we finished the repere
-            elif len(root) <= i+3 or root[i+3][0][0].text is None:
+            elif len(root) <= i+2 or root[i+2][0][0].text is None:
                 break
             # Otherwise add data
             else:
                 if os.name == 'nt':
                     # Windows, timestamp fails if year is inferior of 1971
-                    d = datetime.strptime(root[i + 3][2][0].text, "%H:%M:%S:%f")
+                    d = datetime.strptime(root[i + 2][2][0].text, "%H:%M:%S:%f")
                     data_to_stack[0, 0] = \
                         datetime.timestamp(datetime(1971, 1, 1, d.hour, d.minute, d.second, d.microsecond)) \
                         - datetime.timestamp(datetime(1971, 1, 1))
                 else:
                     data_to_stack[0, 0] = datetime.timestamp(
-                        datetime.strptime(root[i+3][2][0].text, "%H:%M:%S:%f")
+                        datetime.strptime(root[i+2][2][0].text, "%H:%M:%S:%f")
                     )
-                data_to_stack[1, 0] = root[i+3][0][0].text
-                data_to_stack[2, 0] = root[i+3][1][0].text
+                data_to_stack[1, 0] = root[i+2][0][0].text
+                data_to_stack[2, 0] = root[i+2][1][0].text
                 data_tp = np.hstack((data_tp, data_to_stack))
 
         # If we get here and haven't found the repere, raise an error
