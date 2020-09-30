@@ -127,7 +127,7 @@ plt.xlim(xlim)
 plt.ylim(ylim)
 plt.legend(angles.keys())
 
-plt.tight_layout(h_pad=-1, w_pad=-6)
+plt.tight_layout(h_pad=-0.5, w_pad=-6)
 figManager = plt.get_current_fig_manager()
 figManager.window.showMaximized()
 
