@@ -63,7 +63,7 @@ def read_xml_file(xml_path, reperes_anato):
     for _, d in data.items():
         first_frame = np.max((first_frame, d[0, 0]))
         last_frame = np.min((last_frame, d[0, -1]))
-    shared_time = np.arange(first_frame, last_frame, dt)
+    shared_time = np.arange(first_frame, last_frame - dt, dt)  # Remove one frame at the end because of the spline
 
     # Interpolate
     for k, d in data.items():
