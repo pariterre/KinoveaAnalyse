@@ -68,9 +68,8 @@ def read_xml_file(xml_path, reperes_anato):
     # Interpolate
     for k, d in data.items():
         _, idx = np.unique(d[0, :], return_index=True)
-        if len(idx) < 3:
-            # Don't do anything if not enough data are provided
-            data[k] = d[1:3, idx]
+        if len(idx) < 5:
+            raise RuntimeError("Trial is too short to be analysed, at least 5 frames must be labelled")
         else:
             data[k] = interp1d(d[0, idx], d[1:3, idx], kind='cubic')(shared_time)
 
