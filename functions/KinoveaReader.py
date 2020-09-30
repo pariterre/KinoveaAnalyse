@@ -1,8 +1,9 @@
 import os
+from datetime import datetime
 
 import xml.etree.ElementTree as ElementTree
-from datetime import datetime
 import numpy as np
+from scipy.interpolate import interp1d
 
 
 # Read the XML file
@@ -50,19 +51,24 @@ def read_xml_file(xml_path, reperes_anato):
             raise LookupError(repere + " n'a pas été trouvé dans le document")
         data[repere] = data_tp  # Save the data
 
-    # Find share timestamps
-    # Arbitrarily take the time of first repere as time reference
-    shared_time = data[reperes_anato[0]][0, :]
-    shared_time = np.unique(shared_time)
-    for d in data.values():
-        shared_time_tp = d[0, np.isin(d[0, :], shared_time)]
-        shared_time = shared_time[np.isin(shared_time, shared_time_tp)]
+    # Filter the data (this also align time stamps)
+    # Find the most probable dt
+    dt = np.ndarray((0,))
+    for _, d in data.items():
+        dt = np.concatenate((dt, d[0, 1:] - d[0, :-1]))
+    dt = np.around(np.median(dt), 3)
 
-    # Remove unshared timestamps
-    for (k, d) in data.items():
-        idx = np.isin(d[0, :], shared_time)
-        _, idx = np.unique(d[0, idx], return_index=True)
-        data[k] = d[1:3, idx] * 0.01  # From cm to m
+    # Find what is the first and last time stamp
+    first_frame, last_frame = -np.inf, np.inf
+    for _, d in data.items():
+        first_frame = np.max((first_frame, d[0, 0]))
+        last_frame = np.min((last_frame, d[0, -1]))
+    shared_time = np.arange(first_frame, last_frame, dt)
+
+    # Interpolate
+    for k, d in data.items():
+        _, idx = np.unique(d[0, :], return_index=True)
+        data[k] = interp1d(d[0, idx], d[1:3, idx], kind='cubic')(shared_time) * 0.01  # From cm to m
 
     # Return data
     time = shared_time - shared_time[0]
