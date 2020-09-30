@@ -68,7 +68,14 @@ def read_xml_file(xml_path, reperes_anato):
     # Interpolate
     for k, d in data.items():
         _, idx = np.unique(d[0, :], return_index=True)
-        data[k] = interp1d(d[0, idx], d[1:3, idx], kind='cubic')(shared_time) * 0.01  # From cm to m
+        if len(idx) < 3:
+            # Don't do anything if not enough data are provided
+            data[k] = d[1:3, idx]
+        else:
+            data[k] = interp1d(d[0, idx], d[1:3, idx], kind='cubic')(shared_time)
+
+    for k, d in data.items():
+        data[k] = d * 0.01  # From cm to m
 
     # Return data
     time = shared_time - shared_time[0]
