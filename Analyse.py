@@ -46,13 +46,3 @@ grf = BiomechanicsComputation.compute_grf(com_ddot, masse)
 
 # Output
 MainFigure.show(time, data, com, com_dot, com_ddot, com_i, grf, angles, stick)
-
-# Kinogramme
-plt.figure("Kinogramme du mouvement")
-plt.ylabel("Axe vertical (m)")
-plt.xlabel("Axe frontal (m)")
-couleurs = np.linspace(0.88, 0, data.shape[2])
-for i in range(data.shape[2]):
-    plt.plot(data[0, stick, i], data[1, stick, i], color=[couleurs[i], couleurs[i], couleurs[i]])
-plt.axis('equal')
-plt.show()
