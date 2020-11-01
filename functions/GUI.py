@@ -14,7 +14,6 @@ class InfoPopup(QWidget):
 
         # Initialization of output variables
         self.mass = -1
-        self.time_index = -1
         self.xml_file = []
         self.model = None
 
@@ -24,10 +23,6 @@ class InfoPopup(QWidget):
         grid_info.addWidget(QLabel("Mass:"), 0, 0)
         self.mass_text = QLineEdit()
         grid_info.addWidget(self.mass_text, 0, 1)
-
-        grid_info.addWidget(QLabel("Time index:"), 1, 0)
-        self.time_index_text = QLineEdit()
-        grid_info.addWidget(self.time_index_text, 1, 1)
 
         grid_info.addWidget(QLabel("Kinovea file:"), 2, 0)
         self.kinovea_text_empty = "No file selected"
@@ -75,16 +70,6 @@ class InfoPopup(QWidget):
             warning.exec()
             return
 
-        try:
-            self.time_index = int(self.time_index_text.text())
-            if self.time_index < 1:
-                self.time_index = -1
-                raise ValueError
-        except ValueError:
-            warning = QMessageBox(QMessageBox.Warning, "Error in time index", "Time index must be a positive integer greater than 1.")
-            warning.exec()
-            return
-
         if self.kinovea_text.text() == self.kinovea_text_empty:
             warning = QMessageBox(QMessageBox.Warning,
                                   "Choose a valid file", "Please choose a valid XML file exported by Kinovea")
@@ -119,7 +104,7 @@ def get_info():
     app = QApplication(sys.argv)
     ex = InfoPopup()
     app.exec_()
-    return ex.mass, ex.time_index, ex.xml_file, ex.model
+    return ex.mass, ex.xml_file, ex.model
 
 
 def wrong_frame(number_of_frames_max, request_frame):
