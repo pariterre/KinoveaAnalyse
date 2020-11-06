@@ -13,9 +13,8 @@ def read_xml_file(xml_path, reperes_anato):
     #   the 1st iterate on structure (3 is the actual Worksheet)
     #   the 3rd iterate on lines
     #   the 4th iterate on columns
-    ws = 3  # worksheet
     tree = ElementTree.parse(xml_path)
-    root = tree.getroot()[ws][0]  # We don't mind the first 2 columns of root
+    root = tree.getroot()[-1][0]  # We get to DocumentWorkSheet which is at the end
     data = {}
     data_to_stack = np.ndarray((3, 1))  # Declare data stacker that keeps being updated (Time, X, Y)
     for repere in reperes_anato:
