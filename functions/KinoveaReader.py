@@ -33,13 +33,13 @@ def read_xml_file(xml_path, reperes_anato):
             else:
                 if os.name == 'nt':
                     # Windows, timestamp fails if year is inferior of 1971
-                    d = datetime.strptime(root[i + 2][2][0].text, "%H:%M:%S:%f")
+                    d = datetime.strptime(root[i + 2][2][0].text, "%S.%f")
                     data_to_stack[0, 0] = \
                         datetime.timestamp(datetime(1971, 1, 1, d.hour, d.minute, d.second, d.microsecond)) \
                         - datetime.timestamp(datetime(1971, 1, 1))
                 else:
                     data_to_stack[0, 0] = datetime.timestamp(
-                        datetime.strptime(root[i+2][2][0].text, "%H:%M:%S:%f")
+                        datetime.strptime(root[i+2][2][0].text, "%S.%f")
                     )
                 data_to_stack[1, 0] = root[i+2][0][0].text
                 data_to_stack[2, 0] = root[i+2][1][0].text
