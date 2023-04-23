@@ -2,7 +2,7 @@ import sys
 
 import numpy as np
 from matplotlib.backends.qt_compat import QtCore, QtWidgets
-from matplotlib.backends.backend_qt5agg import FigureCanvas, NavigationToolbar2QT as NavigationToolbar
+from matplotlib.backends.backend_qt5agg import FigureCanvas
 from matplotlib.figure import Figure
 
 from . import KinoveaReader
@@ -172,7 +172,7 @@ def show(time, data, com, com_dot, com_ddot, com_i, grf, angles, stick):
     time_slider.setPageStep(1)
     time_slider.setValue(0)
     time_slider.valueChanged.connect(change_time)
-    body_position_canvas.mpl_connect(body_position_canvas.resize_event, change_time)
+    # body_position_canvas.mpl_connect(body_position_canvas.resize_event, change_time)
     kino_pre_check.stateChanged.connect(change_time)
     kino_post_check.stateChanged.connect(change_time)
 
